@@ -15,6 +15,7 @@ smb-credentials*
 .claude/
 
 # OS / editor junk
+~$*
 Thumbs.db
 ehthumbs.db
 Desktop.ini
