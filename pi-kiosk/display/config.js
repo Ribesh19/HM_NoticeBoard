@@ -31,5 +31,5 @@ window.PI_KIOSK_CONFIG = {
 
   // Branding shown while waiting for the first deck to be uploaded.
   waitingLogoSrc: "assets/logo-full.png",
-  waitingMessage: "Waiting for the notice board deck..."
+  waitingMessage: "Waiting for today's deck"
 };

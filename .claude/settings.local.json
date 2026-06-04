@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -q -m 'Original Hockley Mint notice board \\(Supabase + React web manager + TV kiosk\\) *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'WIP: PowerPoint-on-shared-drive kiosk approach \\(display + agent scripts\\) *)",
+      "Bash(git --no-pager log --oneline)",
+      "Bash(git commit -q -m 'Add .gitattributes: force LF on shell scripts for the Pi *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git --no-pager log --oneline -5)",
+      "Bash(python -c \"import pptx; print\\('python-pptx', pptx.__version__\\)\")",
+      "Bash(python -m pip --version)",
+      "PowerShell($p = Get-ItemProperty \"HKLM:\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\App Paths\\\\POWERPNT.EXE\" -ErrorAction SilentlyContinue; if \\($p\\) { \"POWERPOINT: $\\($p.'\\(default\\)'\\)\" } else { try { New-Object -ComObject PowerPoint.Application | Out-Null; \"POWERPOINT COM OK\" } catch { \"NO POWERPOINT\" } })",
+      "Bash(python build_deck.py)"
+    ]
+  }
+}

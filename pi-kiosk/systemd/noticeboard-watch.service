@@ -1,0 +1,18 @@
+[Unit]
+Description=Hockley Mint notice board - deck watcher and converter
+After=network-online.target mnt-noticeboard.mount
+Wants=network-online.target
+
+[Service]
+User=noticeboard
+Group=noticeboard
+EnvironmentFile=/etc/noticeboard.env
+ExecStart=/opt/noticeboard/agent/watch-deck.sh
+Restart=always
+RestartSec=5
+# Conversion (LibreOffice) can be memory-hungry on a Pi; be patient on stop.
+TimeoutStopSec=30
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

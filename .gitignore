@@ -2,10 +2,16 @@
 pi-kiosk/display/current/build-*/
 pi-kiosk/display/current/manifest.json
 
+# Throwaway QA renders of the starter deck
+starter-deck/qa/
+
 # SMB / share credentials - never commit these
 *.cred
 smb-credentials*
 .smbcredentials
+
+# Local Claude Code session settings
+.claude/
 
 # OS / editor junk
 Thumbs.db

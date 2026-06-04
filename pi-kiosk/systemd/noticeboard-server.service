@@ -1,0 +1,20 @@
+[Unit]
+Description=Hockley Mint notice board - local web server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=noticeboard
+Group=noticeboard
+EnvironmentFile=/etc/noticeboard.env
+ExecStart=/usr/bin/python3 -m http.server ${HTTP_PORT} --bind ${HTTP_BIND} --directory ${WEBROOT}
+Restart=always
+RestartSec=3
+# Hardening: this only serves static files on loopback.
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/noticeboard/display/current
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
