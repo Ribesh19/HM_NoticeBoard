@@ -1,0 +1,84 @@
+:root {
+  --hm-green: #0f4d3c;
+  --hm-ink: #0b1f1a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: none;                 /* belt-and-braces; unclutter also hides it */
+  font-family: "Arial Nova", Arial, "Segoe UI", sans-serif;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  background: #000;
+}
+
+/* Two stacked layers; we crossfade opacity between them. */
+.layer {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;     /* never crop a slide; letterbox on black if needed */
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+  will-change: opacity;
+}
+.layer.is-visible { opacity: 1; }
+
+/* Waiting / first-boot screen, shown until the first deck arrives. */
+#waiting {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: radial-gradient(circle at 50% 35%, #12352b 0%, #07140f 70%);
+  color: #eef6f1;
+  transition: opacity 600ms ease;
+}
+#waiting.is-hidden { opacity: 0; pointer-events: none; }
+#waiting img { width: min(38vw, 520px); height: auto; }
+#waiting p { font-size: 28px; letter-spacing: 0.02em; opacity: 0.85; }
+
+/* ---- Live overlay (clock / weather / logo) ---- */
+.overlay {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  background: rgba(8, 22, 17, 0.55);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+.overlay.pos-top-right    { top: 28px; right: 28px; }
+.overlay.pos-top-left     { top: 28px; left: 28px; }
+.overlay.pos-bottom-right { bottom: 28px; right: 28px; }
+.overlay.pos-bottom-left  { bottom: 28px; left: 28px; }
+
+.overlay-logo { height: 44px; width: auto; }
+
+.overlay-clock { text-align: right; line-height: 1.1; }
+.overlay-time { font-size: 34px; font-weight: 700; }
+.overlay-date { font-size: 16px; opacity: 0.8; }
+
+.overlay-weather { display: flex; align-items: center; gap: 12px; }
+.overlay-glyph { font-size: 38px; line-height: 1; }
+.overlay-weather-text { line-height: 1.15; }
+.overlay-temp { font-size: 26px; font-weight: 700; }
+.overlay-summary { font-size: 14px; opacity: 0.8; }

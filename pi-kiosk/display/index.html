@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hockley Mint - Notice Board</title>
+  <link rel="icon" type="image/png" href="assets/union-jewel.png" />
+  <link rel="stylesheet" href="kiosk.css" />
+</head>
+<body>
+  <div id="stage">
+    <div id="layer-a" class="layer"></div>
+    <div id="layer-b" class="layer"></div>
+    <div id="waiting">
+      <img id="waiting-logo" src="assets/logo-full.png" alt="Hockley Mint" />
+      <p id="waiting-message">Waiting for the notice board deck...</p>
+    </div>
+  </div>
+  <div id="overlay"></div>
+
+  <script src="config.js"></script>
+  <script>
+    // Apply configurable waiting-screen branding before the carousel starts.
+    (function () {
+      var cfg = window.PI_KIOSK_CONFIG || {};
+      var logo = document.getElementById("waiting-logo");
+      var msg = document.getElementById("waiting-message");
+      if (logo && cfg.waitingLogoSrc) logo.src = cfg.waitingLogoSrc;
+      if (msg && cfg.waitingMessage) msg.textContent = cfg.waitingMessage;
+    })();
+  </script>
+  <script src="weather.js"></script>
+  <script src="overlay.js"></script>
+  <script src="kiosk.js"></script>
+</body>
+</html>

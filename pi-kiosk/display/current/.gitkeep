@@ -1,0 +1,2 @@
+This folder holds the converted slide images and manifest.json.
+It is populated automatically by agent/watch-deck.sh; leave it empty in git.
