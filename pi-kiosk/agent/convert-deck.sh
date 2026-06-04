@@ -29,6 +29,11 @@ VERSION="$(stat -c '%Y-%s' "$SRC")"
 BUILD="build-$VERSION"
 BUILD_DIR="$CURRENT_DIR/$BUILD"
 
+# Work from a directory we can definitely access. LibreOffice's launcher cd's
+# back to its start directory; if that was an unreadable path (e.g. another
+# user's locked home) it aborts. All paths above are absolute, so this is safe.
+cd "$WORK_DIR"
+
 # 1) PowerPoint -> PDF (LibreOffice headless). A private profile dir avoids
 #    clashing with any interactive LibreOffice and keeps it non-interactive.
 soffice \
