@@ -1,0 +1,12 @@
+[Unit]
+Description=Hockley Mint notice board - weather updater
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=noticeboard
+Group=noticeboard
+EnvironmentFile=/etc/noticeboard.env
+ExecStart=/usr/bin/python3 /opt/noticeboard/agent/fetch-weather.py
+NoNewPrivileges=true

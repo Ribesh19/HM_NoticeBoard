@@ -1,0 +1,10 @@
+[Unit]
+Description=Hockley Mint notice board - refresh weather every 10 minutes
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

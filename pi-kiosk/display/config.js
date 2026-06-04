@@ -10,6 +10,9 @@ window.PI_KIOSK_CONFIG = {
   // Fallback slide duration if the deck/manifest does not specify one.
   slideDurationMs: 12000,
 
+  // Local weather file, refreshed server-side by the Pi (agent/fetch-weather.py).
+  weatherUrl: "weather.json",
+
   // Live weather + clock overlay. Drawn by the kiosk in real time, never baked
   // into the deck, so it stays current even if the PowerPoint is weeks old.
   overlay: {
