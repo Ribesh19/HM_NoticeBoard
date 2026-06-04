@@ -14,6 +14,11 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.oxml.ns import qn
 
+try:
+    from PIL import Image, ImageChops
+except ImportError:
+    Image = None
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.normpath(os.path.join(HERE, "..", "assets"))
 
@@ -45,6 +50,36 @@ prs.slide_height = H
 BLANK = prs.slide_layouts[6]
 
 
+def _gen_deck_bg():
+    """Dark ink background woven with a faint diamond (jewel) brand pattern,
+    derived from assets/pattern-01.png. Kept dark so ivory/mint text stays
+    high-contrast. Returns a path, or None to fall back to a vector gradient."""
+    pat_path = os.path.join(ASSETS, "pattern-01.png")
+    if Image is None or not os.path.exists(pat_path):
+        return None
+    w, h = 1280, 720
+    grad = Image.new("RGB", (1, h))
+    top, mid, bot = (0x06, 0x12, 0x0D), (0x10, 0x2C, 0x22), (0x04, 0x0E, 0x0A)
+    for y in range(h):
+        t = y / (h - 1)
+        if t < 0.5:
+            f = t / 0.5; c = tuple(int(top[i] + (mid[i] - top[i]) * f) for i in range(3))
+        else:
+            f = (t - 0.5) / 0.5; c = tuple(int(mid[i] + (bot[i] - mid[i]) * f) for i in range(3))
+        grad.putpixel((0, y), c)
+    base = grad.resize((w, h))
+    pat = Image.open(pat_path).convert("RGB").resize((w, h))
+    # multiply keeps the diamond structure but dark; blend it back faintly.
+    dark_pat = ImageChops.multiply(pat, base)
+    blended = Image.blend(base, dark_pat, 0.6)
+    out = os.path.join(HERE, "_deck_bg.png")
+    blended.save(out, optimize=True)
+    return out
+
+
+DECK_BG = _gen_deck_bg()
+
+
 # ---- helpers -------------------------------------------------------------
 def slide():
     return prs.slides.add_slide(BLANK)
@@ -59,6 +94,11 @@ def no_shadow(shape):
 
 
 def gradient_bg(s, c_top=INK, c_mid=GREEN_LT, c_bot=INK):
+    # Preferred: the baked diamond-pattern background (cohesive across slides).
+    if DECK_BG:
+        s.shapes.add_picture(DECK_BG, 0, 0, width=W, height=H)
+        return None
+    # Fallback: a plain vector gradient if Pillow / the pattern is unavailable.
     r = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, W, H)
     r.line.fill.background()
     no_shadow(r)
@@ -255,26 +295,32 @@ for date, desc in events:
 
 
 # ========================================================================
-# Slide 5 - Values (2x2 grid)
+# Slide 5 - Values (the real brand wallpaper, full-bleed)
 # ========================================================================
 s = slide()
-gradient_bg(s, INK, GREEN, INK)
-kicker(s, LM, Inches(0.85), "Our values")
-text(s, LM, Inches(1.35), Inches(9), Inches(1.1),
-     "What we stand for", 46, IVORY, font=HEADER, bold=True)
-values = ["Kind to our environment", "Delighted customers",
-          "Honest British craftsmanship", "Happy co-owners"]
-gx, gy = LM, Inches(2.75)
-cw, ch, gap = Inches(5.45), Inches(1.85), Inches(0.45)
-for i, v in enumerate(values):
-    col, row = i % 2, i // 2
-    l = gx + col * (cw + gap)
-    t = gy + row * (ch + gap)
-    card(s, l, t, cw, ch, fill=GREEN_LT, border=BRASS, radius=0.08)
-    circle(s, l + Inches(0.35), t + Inches(0.52), Inches(0.8), BRASS,
-           glyph="◆", glyph_color=INK, glyph_size=22)  # diamond motif
-    text(s, l + Inches(1.45), t, cw - Inches(1.7), ch, v, 24, IVORY,
-         font=HEADER, bold=True, anchor=MSO_ANCHOR.MIDDLE, line_spacing=1.05)
+values_img = os.path.join(ASSETS, "Values (Desktop Wallpaper).jpg")
+if os.path.exists(values_img):
+    # 16:9 brand graphic - fills the slide exactly, no overlay needed.
+    s.shapes.add_picture(values_img, 0, 0, width=W, height=H)
+else:
+    # Fallback: a 2x2 card grid if the wallpaper is missing.
+    gradient_bg(s, INK, GREEN, INK)
+    kicker(s, LM, Inches(0.85), "Our values")
+    text(s, LM, Inches(1.35), Inches(9), Inches(1.1),
+         "What we stand for", 46, IVORY, font=HEADER, bold=True)
+    values = ["Kind to our environment", "Delighted customers",
+              "Honest British craftsmanship", "Happy co-owners"]
+    gx, gy = LM, Inches(2.75)
+    cw, ch, gap = Inches(5.45), Inches(1.85), Inches(0.45)
+    for i, v in enumerate(values):
+        col, row = i % 2, i // 2
+        l = gx + col * (cw + gap)
+        t = gy + row * (ch + gap)
+        card(s, l, t, cw, ch, fill=GREEN_LT, border=BRASS, radius=0.08)
+        circle(s, l + Inches(0.35), t + Inches(0.52), Inches(0.8), BRASS,
+               glyph="◆", glyph_color=INK, glyph_size=22)
+        text(s, l + Inches(1.45), t, cw - Inches(1.7), ch, v, 24, IVORY,
+             font=HEADER, bold=True, anchor=MSO_ANCHOR.MIDDLE, line_spacing=1.05)
 
 
 # ========================================================================

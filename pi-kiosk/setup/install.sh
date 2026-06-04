@@ -52,6 +52,7 @@ echo "==> Copying brand assets (logo + Arial Nova fonts)"
 copy_asset() { [[ -f "$1" ]] && cp -f "$1" "$2" || echo "   (skipped missing $1)"; }
 copy_asset "$REPO_ROOT/assets/logo-full.png"             "$DEST/display/assets/"
 copy_asset "$REPO_ROOT/assets/union-jewel.png"           "$DEST/display/assets/"
+copy_asset "$REPO_ROOT/assets/pattern-01.png"            "$DEST/display/assets/"
 copy_asset "$REPO_ROOT/assets/Arial Nova Font/ArialNova-Light.ttf" "$DEST/display/assets/ArialNova-Light.ttf"
 copy_asset "$REPO_ROOT/assets/Arial Nova Font/ArialNova.ttf"       "$DEST/display/assets/ArialNova.ttf"
 copy_asset "$REPO_ROOT/assets/Arial Nova Font/ArialNova-Bold.ttf"  "$DEST/display/assets/ArialNova-Bold.ttf"
