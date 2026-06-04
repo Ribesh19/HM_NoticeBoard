@@ -2,8 +2,10 @@
 pi-kiosk/display/current/build-*/
 pi-kiosk/display/current/manifest.json
 
-# Throwaway QA renders + generated deck background
+# Throwaway QA renders + generated deck backgrounds
 starter-deck/qa/
+starter-deck/_bg_light.png
+starter-deck/_bg_green.png
 starter-deck/_deck_bg.png
 
 # SMB / share credentials - never commit these
