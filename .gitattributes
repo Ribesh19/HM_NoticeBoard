@@ -1,0 +1,9 @@
+# Shell scripts run on the Raspberry Pi (Linux) - keep LF so they don't break.
+*.sh text eol=lf
+
+# Treat fonts/images/PDFs as binary.
+*.ttf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
