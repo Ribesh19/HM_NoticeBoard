@@ -36,11 +36,11 @@ apt-get install -y --no-install-recommends \
   libreoffice-impress poppler-utils \
   chromium chromium-browser cage \
   python3 cifs-utils \
-  fonts-dejavu-core fonts-liberation \
+  fonts-dejavu-core fonts-liberation fonts-noto-color-emoji \
   ydotool grim 2>/dev/null || \
 apt-get install -y --no-install-recommends \
   libreoffice-impress poppler-utils chromium cage python3 cifs-utils \
-  fonts-liberation ydotool grim
+  fonts-liberation fonts-noto-color-emoji ydotool grim
 
 echo "==> Creating service user '$SVC_USER'"
 if ! id "$SVC_USER" >/dev/null 2>&1; then
